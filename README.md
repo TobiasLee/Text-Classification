@@ -23,7 +23,9 @@ You can load the data with
 
 The ABBLSTM model can get a 98.23 % accuracy on the dataset.
 
+## Reference
 
+Learn a lot from  [ilivans/**tf-rnn-attention **](https://github.com/ilivans/tf-rnn-attention).
 
 
 
