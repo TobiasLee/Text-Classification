@@ -163,20 +163,6 @@ with graph.as_default():
 
 steps = 10001 # about 5 epoch
 
-# ******************************
-# Training finished, time consumed :  22173.78261899948  s
-# start predicting:
-#
-# Test accuracy : 95.694083 %
-
-
-
-# Without adversarial training
-# ******************************
-# Training finished, time consumed :  1110.4490048885345  s
-# start predicting:
-#
-# Test accuracy : 94.595957 %
 with tf.Session(graph=graph) as sess:
     sess.run(tf.global_variables_initializer())
     print("Initialized! ")
