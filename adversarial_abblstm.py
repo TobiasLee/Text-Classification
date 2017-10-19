@@ -109,9 +109,9 @@ with graph.as_default():
     batch_y = tf.placeholder(tf.float32, [None, MAX_LABEL])
     keep_prob = tf.placeholder(tf.float32)
     vocab_freqs = tf.constant(get_freq(vocab), dtype=tf.float32, shape=(vocab_size, 1))
-    print(vocab_freqs)
+    
     weights = vocab_freqs / tf.reduce_sum(vocab_freqs)
-    print(weights)
+    
     embeddings_var = tf.Variable(tf.random_uniform([vocab_size, EMBEDDING_SIZE], -1.0, 1.0), trainable=True)
     W = tf.Variable(tf.random_normal([HIDDEN_SIZE], stddev=0.1))
     W_fc = tf.Variable(tf.truncated_normal([HIDDEN_SIZE, MAX_LABEL], stddev=0.1))
@@ -139,18 +139,15 @@ with graph.as_default():
             h_star = tf.tanh(r) # (batch , HIDDEN_SIZE
         # attention_output, alphas = attention(rnn_outputs, ATTENTION_SIZE, return_alphas=True)
             drop = tf.nn.dropout(h_star, keep_prob)
-        # shape = drop.get_shape()
-        # print(shape)
-
+        
         # Fully connected layer（dense layer)
 
             y_hat = tf.nn.xw_plus_b(drop, W_fc, b_fc)
-    # print(y_hat.shape)
+    
         return y_hat, tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=y_hat, labels=batch_y))
-    # y_hat = tf.squeeze(y_hat)
+    
     lr = 1e-3
     logits, cl_loss = cal_loss_logit(batch_embedded, keep_prob, reuse=False)
-    # cl_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=y_hat, labels=batch_y))
     embedding_perturbated = add_perturbation(batch_embedded, cl_loss)
     ad_logits, ad_loss = cal_loss_logit(embedding_perturbated, keep_prob, reuse=True)
     loss = cl_loss + ad_loss
@@ -169,8 +166,7 @@ with tf.Session(graph=graph) as sess:
 
     train_labels = tf.one_hot(y_train, MAX_LABEL, 1, 0)
     test_labels = tf.one_hot(y_test, MAX_LABEL, 1, 0)
-    # print(train_labels.eval())
-    # print(y_train)
+
     y_train = train_labels.eval()
     y_test = test_labels.eval()
 
@@ -191,8 +187,7 @@ with tf.Session(graph=graph) as sess:
         offset = (step * BATCH_SIZE) % (train_size - BATCH_SIZE)
         batch_data = x_train[offset: offset + BATCH_SIZE, :]
         batch_label = y_train[offset: offset + BATCH_SIZE, :]
-        # print(batch_x.shape)
-        # print(batch_y.shape)
+
         fd = {batch_x: batch_data, batch_y: batch_label, keep_prob: KEEP_PROB}
         l, _, acc = sess.run([loss, optimizer, accuracy], feed_dict=fd)
         time_consumed += time.time() - step_start
