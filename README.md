@@ -13,6 +13,14 @@ Paper: [Hierarchical Attention Networks for Document Classification](http://aclw
 
 See ALSTM_Hierarchical.py
 
+## Adversarial Training Methods For Supervised Text Classification
+
+Paper: [Adversarial Training Methods For Semi-Supervised Text Classification](http://arxiv.org/abs/1605.07725)
+
+See adversarial_abblstm.py 
+
+It achieves 98.5% accuracy in DBpedia, training with AWS p2 instance for almost 2 hours.
+
 ## Dataset and Performance
 
 You can load the data with
