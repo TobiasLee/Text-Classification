@@ -1,5 +1,5 @@
 # Text-Classification
-Implement two text classification with TensorFlow based on two papers:
+Implement some text classification model with TensorFlow based on some papers:
 
 ## Attention-Based Bidirection LSTM for Text Classification
 
@@ -19,7 +19,6 @@ Paper: [Adversarial Training Methods For Semi-Supervised Text Classification](ht
 
 See adversarial_abblstm.py 
 
-It achieves 98.5% accuracy in DBpedia, training with AWS p2 instance for almost 2 hours.
 
 ## Dataset and Performance
 
@@ -30,6 +29,8 @@ You can load the data with
 ```
 
 The ABBLSTM model can get a 98.23 % accuracy on the dataset.
+
+And the Aderversarial ABBLSTM achieves 98.5% accuracy, training with AWS p2 instance for almost 2 hours.
 
 ## Reference
 
