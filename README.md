@@ -32,6 +32,9 @@ The ABBLSTM model can get a 98.23 % accuracy on the dataset.
 
 And the Aderversarial ABBLSTM achieves 98.5% accuracy, training with AWS p2 instance for almost 2 hours.
 
+## TO DO
+Code refactoring.
+
 ## Reference
 
 Learn a lot from  [ilivans/tf-rnn-attention ](https://github.com/ilivans/tf-rnn-attention).
