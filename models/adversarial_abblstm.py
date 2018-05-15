@@ -12,11 +12,11 @@ BATCH_SIZE = 256
 KEEP_PROB = 0.5
 epsilon = 5.0  # IMDB ideal norm length
 MAX_LABEL = 15
-epochs = 5
+epochs = 10
 
 # load data
-x_train, y_train = load_data("../dbpedia_data/dbpedia_csv/train.csv")
-x_test, y_test = load_data("../dbpedia_data/dbpedia_csv/test.csv")
+x_train, y_train = load_data("../dbpedia_data/dbpedia_csv/train.csv", sample_ratio=0.01)
+x_test, y_test = load_data("../dbpedia_data/dbpedia_csv/test.csv", sample_ratio=0.1)
 
 # data preprocessing
 x_train, x_test, vocab, vocab_size = \
