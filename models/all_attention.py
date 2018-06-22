@@ -1,6 +1,6 @@
 import time
 
-from models.modules.multihead import *
+from modules.multihead import *
 from utils.prepare_data import *
 
 # Hyperparameter
@@ -9,16 +9,15 @@ EMBEDDING_SIZE = 128
 HIDDEN_SIZE = 512
 ATTENTION_SIZE = 64
 lr = 1e-3
-BATCH_SIZE = 256
+BATCH_SIZE = 1024
 KEEP_PROB = 0.5
-LAMBDA = 0.0001
-
+LAMBDA = 1e-3
 MAX_LABEL = 15
-epochs = 10
+epochs = 15
 
 # load data
-x_train, y_train = load_data("../dbpedia_data/dbpedia_csv/train.csv", sample_ratio=0.1)
-x_test, y_test = load_data("../dbpedia_data/dbpedia_csv/test.csv", sample_ratio=0.1)
+x_train, y_train = load_data("../dbpedia_csv/train.csv", sample_ratio=1)
+x_test, y_test = load_data("../dbpedia_csv/test.csv", sample_ratio=1)
 
 # data preprocessing
 x_train, x_test, vocab, vocab_size = \
@@ -77,9 +76,16 @@ with tf.Session(graph=graph) as sess:
         print("epoch time:", epoch_finish - epoch_start , " s")
 
     print("Training finished, time consumed : ", time.time() - start, " s")
-    print("start predicting:  \n")
-    test_accuracy = sess.run([accuracy], feed_dict={batch_x: x_test, batch_y: y_test, keep_prob: 1})
-    print("Test accuracy : %f %%" % (test_accuracy[0] * 100))
+    print("Start evaluating:  \n")
+    cnt = 0
+    test_acc = 0
+    for x_batch, y_batch in fill_feed_dict(x_test, y_test, BATCH_SIZE):
+            fd = {batch_x: x_batch, batch_y: y_batch, keep_prob: 1.0}
+            acc = sess.run(accuracy, feed_dict=fd)
+            test_acc += acc
+            cnt += 1        
+    
+    print("Test accuracy : %f %%" % ( test_acc / cnt * 100))
 
 
 

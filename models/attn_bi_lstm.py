@@ -102,9 +102,16 @@ with tf.Session(graph=graph) as sess:
         }))
 
     print("Training finished, time consumed : ", time.time() - start, " s")
-    print("start predicting:  \n")
-    test_accuracy = sess.run([accuracy], feed_dict={batch_x: x_test, batch_y: y_test, keep_prob: 1})
-    print("Test accuracy : %f %%" % (test_accuracy[0] * 100))
+    print("Start evaluating:  \n")
+    cnt = 0
+    test_acc = 0
+    for x_batch, y_batch in fill_feed_dict(x_test, y_test, BATCH_SIZE):
+            fd = {batch_x: x_batch, batch_y: y_batch, keep_prob: 1.0}
+            acc = sess.run(accuracy, feed_dict=fd)
+            test_acc += acc
+            cnt += 1        
+    
+    print("Test accuracy : %f %%" % ( test_acc / cnt * 100))
 
 
 

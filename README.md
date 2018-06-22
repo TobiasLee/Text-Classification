@@ -48,17 +48,16 @@ dbpedia = tf.contrib.learn.datasets.load_dataset('dbpedia', test_with_fake_data=
 
 ## Performance
 
-| Model                               | Accuracy     | Notes                                    |
-| ----------------------------------- | ------------ | ---------------------------------------- |
-| Attention-based Bi-LSTM             | 98.23 %      |                                          |
-| HAN                                 | To be tested |                                          |
-| Adversarial Attention-based Bi-LSTM | 98.5%        | AWS p2 2 hours                           |
-| IndRNN                              | To be tested |                                          |
-| Attention is All Your Need          | 95.650792 %  | Train 10 epochs, using 10% training data |
+| Model                               | Test Accuracy     | Notes                                    |
+| ----------------------------------- | ----------------- | ---------------------------------------- |
+| Attention-based Bi-LSTM             | 98.23 %           |                                          |
+| HAN                                 | 89.15%            | 1080Ti 10 epochs 12 min                 |
+| Adversarial Attention-based Bi-LSTM | 98.5%             | AWS p2 2 hours                           |
+| IndRNN                              | 98.39%            | 1080Ti 10 epochs 10 min                  |
+| Attention is All Your Need          | 97.81     %       | 1080Ti 15 epochs 8 min                   |
 
 ## TO DO
-1. Test models performance
-2. Code refactoring
+- Code refactoring
 
 
 
