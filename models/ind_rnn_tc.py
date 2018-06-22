@@ -1,5 +1,5 @@
 from modules.indRNN import IndRNNCell
-from attention import attention
+from modules.attention import attention
 from tensorflow.contrib.rnn import BasicLSTMCell
 from tensorflow.python.ops.rnn import bidirectional_dynamic_rnn as bi_rnn
 import time
