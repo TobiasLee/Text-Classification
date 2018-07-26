@@ -79,8 +79,6 @@ with graph.as_default():
     prediction = tf.argmax(tf.nn.softmax(y_hat), 1)
     accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, tf.argmax(batch_y, 1)), tf.float32))
 
-steps = 10001 # about 5 epoch
-
 with tf.Session(graph=graph) as sess:
     sess.run(tf.global_variables_initializer())
     print("Initialized! ")
