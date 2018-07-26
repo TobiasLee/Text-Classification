@@ -79,20 +79,7 @@ with graph.as_default():
     prediction = tf.argmax(tf.nn.softmax(y_hat), 1)
     accuracy = tf.reduce_mean(tf.cast(tf.equal(prediction, tf.argmax(batch_y, 1)), tf.float32))
 
-steps = 10001 # about 5 epochion.cpython-35.pyc
- create mode 100644 models/modules/__pycache__/indRNN.cpython-35.pyc
- delete mode 100644 models/modules/__pycache__/indRNN.cpython-36.pyc
- create mode 100644 models/modules/__pycache__/multihead.cpython-35.pyc
- delete mode 100644 models/modules/__pycache__/multihead.cpython-36.pyc
- rename models/{ => modules}/attention.py (100%)
- rename {utils => models/utils}/__init__.py (100%)
- create mode 100644 models/utils/__pycache__/__init__.cpython-35.pyc
- rename {utils => models/utils}/__pycache__/__init__.cpython-36.pyc (100%)
- create mode 100644 models/utils/__pycache__/prepare_data.cpython-35.pyc
- rename {utils => models/utils}/__pycache__/prepare_data.cpython-36.pyc (100%)
- rename {utils => models/utils}/prepare_data.py (100%)
-tobiaslee@XDU-SS-DL:~/research/Text-Classification$ git push origin master
-Username for 'https://github.com': TobiasLee
+steps = 10001 # about 5 epoch
 
 with tf.Session(graph=graph) as sess:
     sess.run(tf.global_variables_initializer())
