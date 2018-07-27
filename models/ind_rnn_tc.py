@@ -22,8 +22,8 @@ x_train, y_train = load_data("../dbpedia_csv/train.csv", sample_ratio=1)
 x_test, y_test = load_data("../dbpedia_csv/test.csv", sample_ratio=1)
 
 # data preprocessing
-x_train, x_test, vocab, vocab_size = \
-    data_preprocessing(x_train, x_test, MAX_DOCUMENT_LENGTH)
+x_train, x_test,  vocab_size = \
+    data_preprocessing_v2(x_train, x_test, MAX_DOCUMENT_LENGTH)
 print(vocab_size)
 
 # split dataset to test and dev

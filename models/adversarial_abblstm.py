@@ -19,8 +19,8 @@ x_train, y_train = load_data("../dbpedia_data/dbpedia_csv/train.csv", sample_rat
 x_test, y_test = load_data("../dbpedia_data/dbpedia_csv/test.csv", sample_ratio=0.1)
 
 # data preprocessing
-x_train, x_test, vocab, vocab_size = \
-    data_preprocessing(x_train, x_test, MAX_DOCUMENT_LENGTH)
+x_train, x_test, vocab_freq, word2idx,vocab_size = \
+    data_preprocessing_with_dict(x_train, x_test, MAX_DOCUMENT_LENGTH)
 print("Vocab size: ", vocab_size)
 
 # split dataset to test and dev
@@ -29,15 +29,14 @@ x_test, x_dev, y_test, y_dev, dev_size, test_size = \
 print("Validation size: ", dev_size)
 
 
-def get_freq(vocabulary):
-    vocab_freq = vocabulary._freq
+def get_freq(vocab_freq, word2idx):
+    """get a frequency dict format as {word_idx: word_freq}"""
     words = vocab_freq.keys()
     freq = [0] * vocab_size
     for word in words:
-        word_idx = vocab.get(word)
+        word_idx = word2idx.get(word)
         word_freq = vocab_freq[word]
         freq[word_idx] = word_freq
-
     return freq
 
 
@@ -78,7 +77,7 @@ with graph.as_default():
     batch_x = tf.placeholder(tf.int32, [None, MAX_DOCUMENT_LENGTH])
     batch_y = tf.placeholder(tf.float32, [None, MAX_LABEL])
     keep_prob = tf.placeholder(tf.float32)
-    vocab_freqs = tf.constant(get_freq(vocab), dtype=tf.float32, shape=(vocab_size, 1))
+    vocab_freqs = tf.constant(get_freq(vocab_freq, word2idx), dtype=tf.float32, shape=(vocab_size, 1))
 
     weights = vocab_freqs / tf.reduce_sum(vocab_freqs)
 
@@ -100,22 +99,19 @@ with graph.as_default():
 
             H = tf.add(rnn_outputs[0], rnn_outputs[1])  # fw + bw
             M = tf.tanh(H)  # M = tanh(H)  (batch_size, seq_len, HIDDEN_SIZE)
-            print(M.shape)
             # alpha (bs * sl, 1)
             alpha = tf.nn.softmax(tf.matmul(tf.reshape(M, [-1, HIDDEN_SIZE]), tf.reshape(W, [-1, 1])))
             r = tf.matmul(tf.transpose(H, [0, 2, 1]), tf.reshape(alpha, [-1, MAX_DOCUMENT_LENGTH,
                                                                          1]))  # supposed to be (batch_size * HIDDEN_SIZE, 1)
-            print(r.shape)
             r = tf.squeeze(r)
             h_star = tf.tanh(r)  # (batch , HIDDEN_SIZE
             # attention_output, alphas = attention(rnn_outputs, ATTENTION_SIZE, return_alphas=True)
             drop = tf.nn.dropout(h_star, keep_prob)
 
             # Fully connected layer（dense layer)
-
             y_hat = tf.nn.xw_plus_b(drop, W_fc, b_fc)
 
-        return y_hat, tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=y_hat, labels=batch_y))
+        return y_hat, tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=y_hat, labels=batch_y))
 
 
     lr = 1e-3
@@ -152,13 +148,6 @@ with tf.Session(graph=graph) as sess:
         }))
 
     print("Training finished, time consumed : ", time.time() - start, " s")
-    print("Start evaluating:  \n")
-    cnt = 0
-    test_acc = 0
-    for x_batch, y_batch in fill_feed_dict(x_test, y_test, BATCH_SIZE):
-            fd = {batch_x: x_batch, batch_y: y_batch, keep_prob: 1.0}
-            acc = sess.run(accuracy, feed_dict=fd)
-            test_acc += acc
-            cnt += 1        
-    
-    print("Test accuracy : %f %%" % ( test_acc / cnt * 100))
+    print("start predicting:  \n")
+    test_accuracy = sess.run([accuracy], feed_dict={batch_x: x_test, batch_y: y_test, keep_prob: 1})
+    print("Test accuracy : %f %%" % (test_accuracy[0] * 100))

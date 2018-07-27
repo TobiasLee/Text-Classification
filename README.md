@@ -1,6 +1,23 @@
 # Text-Classification
 Implement some state-of-the-art text classification models with TensorFlow.
 
+## Requirement
+
+- Python3
+- TensorFlow >= 1.4
+
+Note: Original code is written in TensorFlow 1.4, while the `VocabularyProcessor` is depreciated, updated code changes to use `tf.keras.preprocessing.text` to do preprocessing. The **new** preprocessing function is named `data_preprocessing_v2`
+
+## Dataset
+
+You can load the data with
+
+```python
+dbpedia = tf.contrib.learn.datasets.load_dataset('dbpedia', test_with_fake_data=FLAGS.test_with_fake_data)
+```
+
+
+
 ## Attention is All Your Need
 
 Paper: [Attention Is All You Need](http://arxiv.org/abs/1605.07725)
@@ -37,24 +54,15 @@ Paper: [Adversarial Training Methods For Semi-Supervised Text Classification](ht
 
 See: adversrial_abblstm.py
 
-
-## Dataset
-
-You can load the data with
-
-```python
-dbpedia = tf.contrib.learn.datasets.load_dataset('dbpedia', test_with_fake_data=FLAGS.test_with_fake_data)
-```
-
 ## Performance
 
-| Model                               | Test Accuracy     | Notes                                    |
-| ----------------------------------- | ----------------- | ---------------------------------------- |
-| Attention-based Bi-LSTM             | 98.23 %           |                                          |
-| HAN                                 | 89.15%            | 1080Ti 10 epochs 12 min                 |
-| Adversarial Attention-based Bi-LSTM | 98.5%             | AWS p2 2 hours                           |
-| IndRNN                              | 98.39%            | 1080Ti 10 epochs 10 min                  |
-| Attention is All Your Need          | 97.81     %       | 1080Ti 15 epochs 8 min                   |
+| Model                               | Test Accuracy | Notes                   |
+| ----------------------------------- | ------------- | ----------------------- |
+| Attention-based Bi-LSTM             | 98.23 %       |                         |
+| HAN                                 | 89.15%        | 1080Ti 10 epochs 12 min |
+| Adversarial Attention-based Bi-LSTM | 98.5%         | AWS p2 2 hours          |
+| IndRNN                              | 98.39%        | 1080Ti 10 epochs 10 min |
+| Attention is All Your Need          | 97.81%        | 1080Ti 15 epochs 8 min  |
 
 ## TO DO
 - Code refactoring
