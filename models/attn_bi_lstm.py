@@ -2,6 +2,7 @@ from tensorflow.python.ops.rnn import bidirectional_dynamic_rnn as bi_rnn
 from tensorflow.contrib.rnn import BasicLSTMCell
 from utils.prepare_data import *
 import time
+from utils.model_helper import *
 
 
 class ABLSTM(object):
@@ -66,33 +67,6 @@ class ABLSTM(object):
                                                        name='train_step')
         print("graph built successfully!")
 
-    def _make_train_feed_dict(self, batch):
-        feed_dict = {self.x: batch[0],
-                     self.label: batch[1],
-                     self.keep_prob: .5}
-        return feed_dict
-
-    def _make_test_feed_dict(self, batch):
-        feed_dict = {self.x: batch[0],
-                     self.label: batch[1],
-                     self.keep_prob: 1.0}
-        return feed_dict
-
-    def run_train_step(self, sess, batch):
-        feed_dict = self._make_train_feed_dict(batch)
-        to_return = {
-            'train_op': self.train_op,
-            'loss': self.loss,
-            'global_step': self.global_step,
-        }
-        return sess.run(to_return, feed_dict)
-
-    def run_eval_step(self, sess, batch):
-        feed_dict = self._make_test_feed_dict(batch)
-        prediction = sess.run(self.prediction, feed_dict)
-        acc = np.sum(np.equal(prediction, batch[1])) / len(prediction)
-        return acc
-
 
 if __name__ == '__main__':
     # load data
@@ -133,12 +107,12 @@ if __name__ == '__main__':
         t0 = time.time()
         print("Epoch %d start !" % (e + 1))
         for x_batch, y_batch in fill_feed_dict(x_train, y_train, config["batch_size"]):
-            return_dict = classifier.run_train_step(sess, (x_batch, y_batch))
+            return_dict = run_train_step(classifier, sess, (x_batch, y_batch))
 
         t1 = time.time()
-        
+
         print("Train Epoch time:  %.3f s" % (t1 - t0))
-        dev_acc = classifier.run_eval_step(sess, dev_batch)
+        dev_acc = run_eval_step(classifier, sess, dev_batch)
         print("validation accuracy: %.3f " % dev_acc)
 
     print("Training finished, time consumed : ", time.time() - start, " s")
@@ -146,9 +120,8 @@ if __name__ == '__main__':
     cnt = 0
     test_acc = 0
     for x_batch, y_batch in fill_feed_dict(x_test, y_test, config["batch_size"]):
-        acc = classifier.run_eval_step(sess, (x_batch, y_batch))
+        acc = run_eval_step(classifier, sess, (x_batch, y_batch))
         test_acc += acc
         cnt += 1
 
     print("Test accuracy : %f %%" % (test_acc / cnt * 100))
-   
