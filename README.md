@@ -22,7 +22,7 @@ dbpedia = tf.contrib.learn.datasets.load_dataset('dbpedia', test_with_fake_data=
 
 Paper: [Attention Is All You Need](http://arxiv.org/abs/1605.07725)
 
-See all_attention.py
+See multi_head.py
 
 Use self-attention where **Query = Key = Value = sentence after word embedding**
 
@@ -32,7 +32,7 @@ Multihead Attention module is implemented by [Kyubyong](https://github.com/Kyuby
 
 Paper: [Independently Recurrent Neural Network (IndRNN): Building A Longer and Deeper RNN](https://arxiv.org/abs/1803.04831)
 
-IndRNNCell is  implemented by [batzener](https://github.com/batzner/indrnn)
+IndRNNCell is implemented by [batzener](https://github.com/batzner/indrnn)
 
 ## Attention-Based Bidirection LSTM for Text Classification
 
