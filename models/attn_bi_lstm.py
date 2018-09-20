@@ -45,8 +45,8 @@ class ABLSTM(object):
         h_drop = tf.nn.dropout(h_star, self.keep_prob)
 
         # Fully connected layer（dense layer)
-        FC_W = tf.Variable(tf.truncated_normal([self.hidden_size, self.max_len], stddev=0.1))
-        FC_b = tf.Variable(tf.constant(0., shape=[self.max_len]))
+        FC_W = tf.Variable(tf.truncated_normal([self.hidden_size, self.n_class], stddev=0.1))
+        FC_b = tf.Variable(tf.constant(0., shape=[self.n_class]))
         y_hat = tf.nn.xw_plus_b(h_drop, FC_W, FC_b)
 
         self.loss = tf.reduce_mean(
