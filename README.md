@@ -16,8 +16,6 @@ You can load the data with
 dbpedia = tf.contrib.learn.datasets.load_dataset('dbpedia', test_with_fake_data=FLAGS.test_with_fake_data)
 ```
 
-
-
 ## Attention is All Your Need
 
 Paper: [Attention Is All You Need](http://arxiv.org/abs/1605.07725)
@@ -64,12 +62,9 @@ See: adversrial_abblstm.py
 | IndRNN                              | 98.39%        | 1080Ti 10 epochs 10 min |
 | Attention is All Your Need          | 97.81%        | 1080Ti 15 epochs 8 min  |
 
-## TO DO
-- Code refactoring
+## Welcome To Contribute
 
-
-
-
+If you have any models implemented with great performance, you're welcome to contribute. Also, I'm glad to help if you have any problems with the project,  feel free to raise a issue.
 
 
 
