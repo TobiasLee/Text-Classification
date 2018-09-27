@@ -10,26 +10,14 @@ def to_one_hot(y, n_class):
     return np.eye(n_class)[y.astype(int)]
 
 
-def load_data(file_name, sample_ratio=1, n_class=15, names=names):
+def load_data(file_name, sample_ratio=1, n_class=15, names=names, one_hot=True):
     '''load data from .csv file'''
     csv_file = pd.read_csv(file_name, names=names)
     shuffle_csv = csv_file.sample(frac=sample_ratio)
     x = pd.Series(shuffle_csv["content"])
     y = pd.Series(shuffle_csv["class"])
-    y = to_one_hot(y, n_class)
-    # print(y.shape)
-    return x, y
-
-
-def load_datav2(file_name, sample_ratio=0.0001, n_class=15, names=names):
-    """load data from .csv file"""
-    csv_file = pd.read_csv(file_name, names=names)
-    shuffle_csv = csv_file.sample(frac=sample_ratio)
-    x = pd.Series(shuffle_csv["content"])
-    y = pd.Series(shuffle_csv["class"])
-    y = np.asarray(y)
-    # y = to_one_hot(y, n_class)
-    # print(y.shape)
+    if one_hot:
+        y = to_one_hot(y, n_class)
     return x, y
 
 
