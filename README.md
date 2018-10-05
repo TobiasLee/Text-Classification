@@ -52,6 +52,14 @@ Paper: [Adversarial Training Methods For Semi-Supervised Text Classification](ht
 
 See: adversrial_abblstm.py
 
+
+## Convolutional Neural Networks for Sentence Classification
+
+Paper: [Convolutional Neural Networks for Sentence Classification](http://arxiv.org/abs/1408.5882)
+
+See: cnn.py
+
+**Note**: The parameters are not fine-tuned, you can modify the kernel as you want.
 ## Performance
 
 | Model                               | Test Accuracy | Notes                   |
@@ -61,6 +69,7 @@ See: adversrial_abblstm.py
 | Adversarial Attention-based Bi-LSTM | 98.5%         | AWS p2 2 hours          |
 | IndRNN                              | 98.39%        | 1080Ti 10 epochs 10 min |
 | Attention is All Your Need          | 97.81%        | 1080Ti 15 epochs 8 min  |
+| CNN             | To be tested      | To be done  |
 
 ## Welcome To Contribute
 
