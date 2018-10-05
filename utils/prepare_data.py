@@ -37,15 +37,15 @@ def data_preprocessing(train, test, max_len):
     return x_train, x_test, vocab, vocab_size
 
 
-def data_preprocessing_v2(train, test, max_len):
-    tokenizer = tf.keras.preprocessing.text.Tokenizer(oov_token='<UNK>')
+def data_preprocessing_v2(train, test, max_len, max_words=50000):
+    tokenizer = tf.keras.preprocessing.text.Tokenizer(num_words=max_words)
     tokenizer.fit_on_texts(train)
     train_idx = tokenizer.texts_to_sequences(train)
     test_idx = tokenizer.texts_to_sequences(test)
     train_padded = pad_sequences(train_idx, maxlen=max_len, padding='post', truncating='post')
     test_padded = pad_sequences(test_idx, maxlen=max_len, padding='post', truncating='post')
     # vocab size = len(word_docs) + 2  (<UNK>, <PAD>)
-    return train_padded, test_padded, len(tokenizer.word_docs) + 2
+    return train_padded, test_padded, max_words + 2
 
 
 def data_preprocessing_with_dict(train, test, max_len):
