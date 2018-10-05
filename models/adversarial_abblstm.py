@@ -148,7 +148,11 @@ if __name__ == '__main__':
     classifier = AdversarialClassifier(config)
     classifier.build_graph(vocab_freq, word2idx)
 
-    sess = tf.Session()
+    # auto GPU growth, avoid occupy all GPU memory
+    tf_config = tf.ConfigProto()
+    tf_config.gpu_options.allow_growth = True
+    sess = tf.Session(config=tf_config)
+
     sess.run(tf.global_variables_initializer())
     dev_batch = (x_dev, y_dev)
     start = time.time()
