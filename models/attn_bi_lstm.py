@@ -36,9 +36,11 @@ class ABLSTM(object):
         H = fw_outputs + bw_outputs  # (batch_size, seq_len, HIDDEN_SIZE)
         M = tf.tanh(H)  # M = tanh(H)  (batch_size, seq_len, HIDDEN_SIZE)
 
-        alpha = tf.nn.softmax(tf.matmul(tf.reshape(M, [-1, self.hidden_size]), tf.reshape(W, [-1, 1])))
+        self.alpha = tf.nn.softmax(tf.reshape(tf.matmul(tf.reshape(M, [-1, self.hidden_size]),
+                                                        tf.reshape(W, [-1, 1])),
+                                              (-1, self.max_len)))  # batch_size x seq_len
         r = tf.matmul(tf.transpose(H, [0, 2, 1]),
-                      tf.reshape(alpha, [-1, self.max_len, 1]))
+                      tf.reshape(self.alpha, [-1, self.max_len, 1]))
         r = tf.squeeze(r)
         h_star = tf.tanh(r)  # (batch , HIDDEN_SIZE
 
@@ -91,18 +93,14 @@ if __name__ == '__main__':
         "embedding_size": 128,
         "n_class": 15,
         "learning_rate": 1e-3,
-        "batch_size": 32,
+        "batch_size": 4,
         "train_epoch": 20
     }
 
     classifier = ABLSTM(config)
     classifier.build_graph()
 
-    # auto GPU growth, avoid occupy all GPU memory
-    tf_config = tf.ConfigProto()
-    tf_config.gpu_options.allow_growth = True
-    sess = tf.Session(config=tf_config)
-
+    sess = tf.Session()
     sess.run(tf.global_variables_initializer())
     dev_batch = (x_dev, y_dev)
     start = time.time()
@@ -112,7 +110,9 @@ if __name__ == '__main__':
         print("Epoch %d start !" % (e + 1))
         for x_batch, y_batch in fill_feed_dict(x_train, y_train, config["batch_size"]):
             return_dict = run_train_step(classifier, sess, (x_batch, y_batch))
-
+            attn = get_attn_weight(classifier, sess, (x_batch, y_batch))
+            # plot the attention weight
+            # print(np.reshape(attn, (config["batch_size"], config["max_len"])))
         t1 = time.time()
 
         print("Train Epoch time:  %.3f s" % (t1 - t0))

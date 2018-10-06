@@ -31,3 +31,8 @@ def run_eval_step(model, sess, batch):
     prediction = sess.run(model.prediction, feed_dict)
     acc = np.sum(np.equal(prediction, batch[1])) / len(prediction)
     return acc
+
+
+def get_attn_weight(model, sess, batch):
+    feed_dict = make_train_feed_dict(model, batch)
+    return sess.run(model.alpha, feed_dict)
