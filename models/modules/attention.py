@@ -4,9 +4,10 @@ import tensorflow as tf
 def attention(inputs, attention_size, time_major=False, return_alphas=False):
     """
     Attention mechanism layer which reduces RNN/Bi-RNN outputs with Attention vector.
-
     The idea was proposed in the article by Z. Yang et al., "Hierarchical Attention Networks
      for Document Classification", 2016: http://www.aclweb.org/anthology/N16-1174.
+    Variables notation is also inherited from the article
+
     Args:
         inputs: The Attention inputs.
             Matches outputs of RNN/Bi-RNN layer (not final state):
@@ -53,27 +54,24 @@ def attention(inputs, attention_size, time_major=False, return_alphas=False):
         # (T,B,D) => (B,T,D)
         inputs = tf.array_ops.transpose(inputs, [1, 0, 2])
 
-    inputs_shape = inputs.shape # ( batch_size , seq_len, hidden_size)
-    sequence_length = inputs_shape[1].value  # the length of sequences processed in the antecedent RNN layer
-    hidden_size = inputs_shape[2].value  # hidden size of the RNN layer
+    hidden_size = inputs.shape[2].value  # D value - hidden size of the RNN layer
 
-    # Attention mechanism
-    W_omega = tf.Variable(tf.random_normal([hidden_size, attention_size], stddev=0.1))
+    # Trainable parameters
+    w_omega = tf.Variable(tf.random_normal([hidden_size, attention_size], stddev=0.1))
     b_omega = tf.Variable(tf.random_normal([attention_size], stddev=0.1))
     u_omega = tf.Variable(tf.random_normal([attention_size], stddev=0.1))
-    # (batch_size * seq_len, hidden_size) * (hidden_size , attention_size) + （1，attention_size)
-    #  = （batch_size * seq_len, attention_size)
-    v = tf.tanh(tf.matmul(tf.reshape(inputs, [-1, hidden_size]), W_omega) + tf.reshape(b_omega, [1, -1])) # broadcasting
-    # vu : (batch_size * seq_len, 1)
-    vu = tf.matmul(v, tf.reshape(u_omega, [-1, 1]))
-    # exps : (batch_size, seq_len)
-    exps = tf.reshape(tf.exp(vu), [-1, sequence_length])
-    # Attention Vector
-    alphas = exps / tf.reshape(tf.reduce_sum(exps, 1), [-1, 1])
 
-    # Output of Bi-RNN is reduced with attention vector
-    # output = sum( alpha * h ) 加权之和
-    output = tf.reduce_sum(inputs * tf.reshape(alphas, [-1, sequence_length, 1]), 1)
+    with tf.name_scope('v'):
+        # Applying fully connected layer with non-linear activation to each of the B*T timestamps;
+        #  the shape of `v` is (B,T,D)*(D,A)=(B,T,A), where A=attention_size
+        v = tf.tanh(tf.tensordot(inputs, w_omega, axes=1) + b_omega)
+
+    # For each of the timestamps its vector of size A from `v` is reduced with `u` vector
+    vu = tf.tensordot(v, u_omega, axes=1, name='vu')  # (B,T) shape
+    alphas = tf.nn.softmax(vu, name='alphas')  # (B,T) shape
+
+    # Output of (Bi-)RNN is reduced with attention vector; the result has (B,D) shape
+    output = tf.reduce_sum(inputs * tf.expand_dims(alphas, -1), 1)
 
     if not return_alphas:
         return output
