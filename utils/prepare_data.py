@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-
+from sklearn.utils import shuffle
 names = ["class", "title", "content"]
 
 
@@ -75,10 +75,14 @@ def split_dataset(x_test, y_test, dev_ratio):
 def fill_feed_dict(data_X, data_Y, batch_size):
     """Generator to yield batches"""
     # Shuffle data first.
-    perm = np.random.permutation(data_X.shape[0])
-    data_X = data_X[perm]
-    data_Y = data_Y[perm]
+    shuffled_X, shuffled_Y = shuffle(data_X, data_Y)
+    # print("before shuffle: ", data_Y[:10])
+    # print(data_X.shape[0])
+    # perm = np.random.permutation(data_X.shape[0])
+    # data_X = data_X[perm]
+    # shuffled_Y = data_Y[perm]
+    # print("after shuffle: ", shuffled_Y[:10])
     for idx in range(data_X.shape[0] // batch_size):
-        x_batch = data_X[batch_size * idx: batch_size * (idx + 1)]
-        y_batch = data_Y[batch_size * idx: batch_size * (idx + 1)]
+        x_batch = shuffled_X[batch_size * idx: batch_size * (idx + 1)]
+        y_batch = shuffled_Y[batch_size * idx: batch_size * (idx + 1)]
         yield x_batch, y_batch
