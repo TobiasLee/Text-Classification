@@ -59,6 +59,16 @@ Paper: [Convolutional Neural Networks for Sentence Classification](http://arxiv.
 
 See: cnn.py
 
+
+## RMDL: Random Multimodel Deep Learning for Classification
+
+Paper: [RMDL: Random Multimodel Deep Learning for Classification](https://arxiv.org/abs/1805.01890)
+
+See: RMDL.py
+See: [RMDL Github](https://github.com/kk7nc/RMDL)
+
+
+
 **Note**: The parameters are not fine-tuned, you can modify the kernel as you want.
 ## Performance
 
@@ -69,6 +79,7 @@ See: cnn.py
 | Adversarial Attention-based Bi-LSTM | 98.5%         | AWS p2 2 hours          |
 | IndRNN                              | 98.39%        | 1080Ti 10 epochs 10 min |
 | Attention is All Your Need          | 97.81%        | 1080Ti 15 epochs 8 min  |
+| RMDL                                | 98.91%        | 2X Tesla Xp (3 RDLs)    |
 | CNN             | To be tested      | To be done  |
 
 ## Welcome To Contribute
