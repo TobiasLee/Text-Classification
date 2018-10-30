@@ -59,6 +59,21 @@ Paper: [Convolutional Neural Networks for Sentence Classification](http://arxiv.
 
 See: cnn.py
 
+## HDLTex: Hierarchical Deep Learning for Text Classification
+
+Paper: [HDLTex: Hierarchical Deep Learning for Text Classification](https://arxiv.org/abs/1709.08267)
+
+See: [HDLTex GitHub](https://github.com/kk7nc/HDLTex)
+
+
+## HDLTex: Hierarchical Deep Learning for Text Classification
+
+Paper: [HDLTex: Hierarchical Deep Learning for Text Classification](https://arxiv.org/abs/1709.08267)
+
+See: [HDLTex GitHub](https://github.com/kk7nc/HDLTex)
+
+
+
 **Note**: The parameters are not fine-tuned, you can modify the kernel as you want.
 ## Performance
 
