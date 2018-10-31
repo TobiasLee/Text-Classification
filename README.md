@@ -59,18 +59,14 @@ Paper: [Convolutional Neural Networks for Sentence Classification](http://arxiv.
 
 See: cnn.py
 
-## HDLTex: Hierarchical Deep Learning for Text Classification
 
-Paper: [HDLTex: Hierarchical Deep Learning for Text Classification](https://arxiv.org/abs/1709.08267)
+## RMDL: Random Multimodel Deep Learning for Classification
 
-See: [HDLTex GitHub](https://github.com/kk7nc/HDLTex)
+Paper: [RMDL: Random Multimodel Deep Learning for Classification](https://arxiv.org/abs/1805.01890)
 
+See: RMDL.py
+See: [RMDL Github](https://github.com/kk7nc/RMDL)
 
-## HDLTex: Hierarchical Deep Learning for Text Classification
-
-Paper: [HDLTex: Hierarchical Deep Learning for Text Classification](https://arxiv.org/abs/1709.08267)
-
-See: [HDLTex GitHub](https://github.com/kk7nc/HDLTex)
 
 
 
@@ -84,6 +80,7 @@ See: [HDLTex GitHub](https://github.com/kk7nc/HDLTex)
 | Adversarial Attention-based Bi-LSTM | 98.5%         | AWS p2 2 hours          |
 | IndRNN                              | 98.39%        | 1080Ti 10 epochs 10 min |
 | Attention is All Your Need          | 97.81%        | 1080Ti 15 epochs 8 min  |
+| RMDL                                | 98.91%        | 2X Tesla Xp (3 RDLs)    |
 | CNN             | To be tested      | To be done  |
 
 ## Welcome To Contribute
