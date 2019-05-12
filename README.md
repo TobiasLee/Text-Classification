@@ -16,6 +16,8 @@ You can load the data with
 dbpedia = tf.contrib.learn.datasets.load_dataset('dbpedia', test_with_fake_data=FLAGS.test_with_fake_data)
 ```
 
+Or download it from [Baidu Yun](https://pan.baidu.com/s/1hz4Oh9A4udLzFjudyVDazw).
+
 ## Attention is All Your Need
 
 Paper: [Attention Is All You Need](http://arxiv.org/abs/1605.07725)
@@ -81,7 +83,7 @@ See: [RMDL Github](https://github.com/kk7nc/RMDL)
 | IndRNN                              | 98.39%        | 1080Ti 10 epochs 10 min |
 | Attention is All Your Need          | 97.81%        | 1080Ti 15 epochs 8 min  |
 | RMDL                                | 98.91%        | 2X Tesla Xp (3 RDLs)    |
-| CNN             | To be tested      | To be done  |
+| CNN                                 | 98.37%        |   |
 
 ## Welcome To Contribute
 
