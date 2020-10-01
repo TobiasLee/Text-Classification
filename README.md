@@ -8,6 +8,10 @@ Implement some state-of-the-art text classification models with TensorFlow.
 
 Note: Original code is written in TensorFlow 1.4, while the `VocabularyProcessor` is depreciated, updated code changes to use `tf.keras.preprocessing.text` to do preprocessing. The **new** preprocessing function is named `data_preprocessing_v2`
 
+## Installation
+pip install tensorflow
+https://www.tensorflow.org/
+
 ## Dataset
 
 You can load the data with
